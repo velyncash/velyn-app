@@ -1,4 +1,5 @@
 name: ci
+
 on:
   push:
     branches: [main]
@@ -9,10 +10,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Detect Node project
+        id: detect
+        run: |
+          if [ -f "package.json" ]; then
+            echo "has_node=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_node=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Skip (no package.json yet)
+        if: steps.detect.outputs.has_node == 'false'
+        run: echo "No package.json found. CI skipped (scaffold mode)."
+
       - uses: actions/setup-node@v4
+        if: steps.detect.outputs.has_node == 'true'
         with:
           node-version: 20
           cache: npm
-      - run: npm ci || npm install
-      - run: npm run lint || true
-      - run: npm run typecheck || true
+
+      - name: Install
+        if: steps.detect.outputs.has_node == 'true'
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Lint
+        if: steps.detect.outputs.has_node == 'true'
+        run: npm run lint --if-present
+
+      - name: Typecheck
+        if: steps.detect.outputs.has_node == 'true'
+        run: npm run typecheck --if-present
+
+      - name: Test
+        if: steps.detect.outputs.has_node == 'true'
+        run: npm test --if-present
