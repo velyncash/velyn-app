@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Velyn",
+    "slug": "velyn",
+    "scheme": "velyn",
+    "platforms": ["ios", "android"],
+    "orientation": "portrait",
+    "userInterfaceStyle": "light"
+  }
+}
