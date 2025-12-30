@@ -1,2 +1,9 @@
 # velyn-app
-Velyn.Cash mobile app (iOS/Android). White/pink glass UI. Auth (username/password + PIN) + core modules: payments (QR/NFC), cards, budgeting, analytics.
+
+Velyn.Cash mobile app (iOS/Android).
+UI: white/pink glass. Auth: username/password + PIN.
+Modules: dashboard, payments (QR/NFC), cards, budgeting, analytics, security, settings.
+
+Status: active development.
+
+© Velyn.Cash
